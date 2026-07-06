@@ -65,7 +65,7 @@ export function CompanyForm({
         />
       </div>
 
-      <div className="grid grid-cols-[1fr_auto] gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto]">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-ink">Strasse</label>
           <Input
@@ -75,7 +75,7 @@ export function CompanyForm({
             placeholder="Bahnhofstrasse"
           />
         </div>
-        <div className="flex w-24 flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 sm:w-24">
           <label className="text-sm font-medium text-ink">Nr.</label>
           <Input
             required
@@ -86,8 +86,8 @@ export function CompanyForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-[auto_1fr_auto] gap-3">
-        <div className="flex w-24 flex-col gap-1.5">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-[auto_1fr_auto]">
+        <div className="flex flex-col gap-1.5 sm:w-24">
           <label className="text-sm font-medium text-ink">PLZ</label>
           <Input
             required
@@ -105,7 +105,7 @@ export function CompanyForm({
             placeholder="Zürich"
           />
         </div>
-        <div className="flex w-28 flex-col gap-1.5">
+        <div className="flex flex-col gap-1.5 sm:w-28">
           <label className="text-sm font-medium text-ink">Land</label>
           <Select
             value={values.address.country}
@@ -137,7 +137,7 @@ export function CompanyForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-ink">E-Mail</label>
           <Input

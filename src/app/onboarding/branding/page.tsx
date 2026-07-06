@@ -35,14 +35,14 @@ export default function OnboardingBrandingPage() {
       brandingColor: color,
     });
     clearDraft();
-    router.replace("/rechnungen/neu?firstRun=1");
+    router.replace("/onboarding/tour");
   }
 
   if (!draft) return null;
 
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-16">
-      <p className="text-xs font-medium uppercase tracking-wide text-accent">Schritt 2 von 2</p>
+      <p className="text-xs font-medium uppercase tracking-wide text-accent">Schritt 2 von 3</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink">
         Wählen Sie Ihre Markenfarbe
       </h1>

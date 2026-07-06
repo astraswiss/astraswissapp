@@ -24,7 +24,36 @@ export function ClientList({ clients }: { clients: Client[] }) {
         placeholder="Kunden durchsuchen…"
         className="w-full max-w-xs rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15"
       />
-      <div className="overflow-hidden rounded-xl border border-line">
+
+      {/* Mobile: stacked cards */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        {filtered.map((client) => (
+          <div key={client.id} className="rounded-xl border border-line p-4">
+            <Link href={`/kunden/${client.id}`} className="font-medium text-ink hover:text-accent">
+              {client.name}
+            </Link>
+            <p className="mt-1 text-sm text-ink-soft">
+              {client.address.postalCode} {client.address.city}
+            </p>
+            {client.email && <p className="text-sm text-ink-soft">{client.email}</p>}
+            <ButtonEl
+              type="button"
+              variant="subtle"
+              className="mt-2 px-2 py-1 text-xs"
+              onClick={() => {
+                if (confirm(`Kunde "${client.name}" wirklich löschen?`)) {
+                  deleteClient(client.id);
+                }
+              }}
+            >
+              Löschen
+            </ButtonEl>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden overflow-hidden rounded-xl border border-line sm:block">
         <table className="w-full text-sm">
           <thead className="bg-paper-raised text-xs font-medium uppercase tracking-wide text-ink-faint">
             <tr>

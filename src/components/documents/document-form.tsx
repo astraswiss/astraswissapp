@@ -133,7 +133,7 @@ export function DocumentForm(props: DocumentFormProps) {
             />
           </section>
 
-          <section className="grid grid-cols-2 gap-4">
+          <section className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
               <label className="text-sm font-medium text-ink">Datum</label>
               <Input

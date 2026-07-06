@@ -27,6 +27,10 @@ function statusTone(status: string) {
   return "neutral" as const;
 }
 
+function statusLabel(doc: Invoice | Offer) {
+  return doc.kind === "invoice" ? INVOICE_STATUS_LABEL[doc.status] : OFFER_STATUS_LABEL[doc.status];
+}
+
 export function DocumentList({
   kind,
   documents,
@@ -49,55 +53,88 @@ export function DocumentList({
   const basePath = kind === "invoice" ? "/rechnungen" : "/offerten";
 
   return (
-    <div className="overflow-hidden rounded-xl border border-line">
-      <table className="w-full text-sm">
-        <thead className="bg-paper-raised text-xs font-medium uppercase tracking-wide text-ink-faint">
-          <tr>
-            <th className="px-4 py-3 text-left">Nummer</th>
-            <th className="px-4 py-3 text-left">Kunde</th>
-            <th className="px-4 py-3 text-left">Datum</th>
-            <th className="px-4 py-3 text-left">Status</th>
-            <th className="px-4 py-3 text-right">Total</th>
-            <th className="px-4 py-3" />
-          </tr>
-        </thead>
-        <tbody>
-          {documents.map((doc) => {
-            const client = clients.find((c) => c.id === doc.clientId);
-            const label =
-              doc.kind === "invoice" ? INVOICE_STATUS_LABEL[doc.status] : OFFER_STATUS_LABEL[doc.status];
-            return (
-              <tr key={doc.id} className="border-t border-line">
-                <td className="px-4 py-3">
-                  <Link href={`${basePath}/${doc.id}`} className="font-mono text-ink hover:text-accent">
-                    {doc.number}
-                  </Link>
-                </td>
-                <td className="px-4 py-3 text-ink-soft">{client?.name ?? "—"}</td>
-                <td className="px-4 py-3 text-ink-soft">{formatDate(doc.issueDate)}</td>
-                <td className="px-4 py-3">
-                  <Badge tone={statusTone(doc.status)}>{label}</Badge>
-                </td>
-                <td className="px-4 py-3 text-right font-mono text-ink-soft">
-                  {formatChf(computeTotal(doc.lineItems))}
-                </td>
-                <td className="px-4 py-3 text-right">
-                  <ButtonEl
-                    type="button"
-                    variant="subtle"
-                    className="px-2 py-1 text-xs"
-                    onClick={() => {
-                      if (confirm(`${doc.number} wirklich löschen?`)) onDelete(doc.id);
-                    }}
-                  >
-                    Löschen
-                  </ButtonEl>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {/* Mobile: stacked cards */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        {documents.map((doc) => {
+          const client = clients.find((c) => c.id === doc.clientId);
+          return (
+            <div key={doc.id} className="rounded-xl border border-line p-4">
+              <div className="flex items-start justify-between gap-2">
+                <Link href={`${basePath}/${doc.id}`} className="font-mono text-sm text-ink hover:text-accent">
+                  {doc.number}
+                </Link>
+                <Badge tone={statusTone(doc.status)}>{statusLabel(doc)}</Badge>
+              </div>
+              <p className="mt-1.5 text-sm text-ink-soft">{client?.name ?? "—"}</p>
+              <div className="mt-3 flex items-center justify-between">
+                <span className="text-xs text-ink-faint">{formatDate(doc.issueDate)}</span>
+                <span className="font-mono text-sm text-ink">{formatChf(computeTotal(doc.lineItems))}</span>
+              </div>
+              <ButtonEl
+                type="button"
+                variant="subtle"
+                className="mt-2 px-2 py-1 text-xs"
+                onClick={() => {
+                  if (confirm(`${doc.number} wirklich löschen?`)) onDelete(doc.id);
+                }}
+              >
+                Löschen
+              </ButtonEl>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Desktop: table */}
+      <div className="hidden overflow-hidden rounded-xl border border-line sm:block">
+        <table className="w-full text-sm">
+          <thead className="bg-paper-raised text-xs font-medium uppercase tracking-wide text-ink-faint">
+            <tr>
+              <th className="px-4 py-3 text-left">Nummer</th>
+              <th className="px-4 py-3 text-left">Kunde</th>
+              <th className="px-4 py-3 text-left">Datum</th>
+              <th className="px-4 py-3 text-left">Status</th>
+              <th className="px-4 py-3 text-right">Total</th>
+              <th className="px-4 py-3" />
+            </tr>
+          </thead>
+          <tbody>
+            {documents.map((doc) => {
+              const client = clients.find((c) => c.id === doc.clientId);
+              return (
+                <tr key={doc.id} className="border-t border-line">
+                  <td className="px-4 py-3">
+                    <Link href={`${basePath}/${doc.id}`} className="font-mono text-ink hover:text-accent">
+                      {doc.number}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3 text-ink-soft">{client?.name ?? "—"}</td>
+                  <td className="px-4 py-3 text-ink-soft">{formatDate(doc.issueDate)}</td>
+                  <td className="px-4 py-3">
+                    <Badge tone={statusTone(doc.status)}>{statusLabel(doc)}</Badge>
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-ink-soft">
+                    {formatChf(computeTotal(doc.lineItems))}
+                  </td>
+                  <td className="px-4 py-3 text-right">
+                    <ButtonEl
+                      type="button"
+                      variant="subtle"
+                      className="px-2 py-1 text-xs"
+                      onClick={() => {
+                        if (confirm(`${doc.number} wirklich löschen?`)) onDelete(doc.id);
+                      }}
+                    >
+                      Löschen
+                    </ButtonEl>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }

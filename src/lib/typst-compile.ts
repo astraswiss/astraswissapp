@@ -7,6 +7,7 @@ import type { Client, Company, Invoice, Offer } from "@/lib/store/types";
 const TYPST_ROOT = path.join(process.cwd(), "src/typst");
 const TEMPLATES_DIR = path.join(TYPST_ROOT, "templates");
 const VENDORED_PACKAGES_DIR = path.join(TYPST_ROOT, "packages");
+const FONTS_DIR = path.join(TYPST_ROOT, "fonts");
 const CACHE_ROOT = path.join(os.tmpdir(), "astra-typst-cache");
 
 let compiler: NodeCompiler | undefined;
@@ -30,7 +31,23 @@ function getCompiler(): NodeCompiler {
   if (!compiler) {
     ensurePackageCache();
     process.env.XDG_CACHE_HOME = CACHE_ROOT;
-    compiler = NodeCompiler.create({ workspace: TEMPLATES_DIR });
+    compiler = NodeCompiler.create({
+      workspace: TEMPLATES_DIR,
+      // Vendored variable fonts (Inter, Source Serif 4, Space Grotesk) — see
+      // src/typst/fonts/*/OFL.txt. Without this, Typst falls back to
+      // whatever font happens to be installed on the host (fine in this dev
+      // sandbox, not guaranteed on the actual deploy target), which is why
+      // the documents used to render in a generic system font.
+      fontArgs: [
+        {
+          fontPaths: [
+            path.join(FONTS_DIR, "inter"),
+            path.join(FONTS_DIR, "source-serif-4"),
+            path.join(FONTS_DIR, "space-grotesk"),
+          ],
+        },
+      ],
+    });
   }
   return compiler;
 }
