@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+:root {
+  --color-paper: #ffffff;
+  --color-paper-raised: #f6f7f8;
+  --color-ink: #0b0d12;
+  --color-ink-soft: #565b66;
+  --color-ink-faint: #8b8f99;
+  --color-line: #e5e7eb;
+  --color-accent: #3454d1;
+  --color-accent-dark: #28409f;
+  --color-accent-soft: #eef1fc;
+  --color-dark: #0a0b0f;
+  --color-dark-foreground: #f3f4f6;
+  --color-danger: #c1442d;
+  --color-danger-soft: #fbeeea;
+}
+
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-paper-raised: var(--color-paper-raised);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-faint: var(--color-ink-faint);
+  --color-line: var(--color-line);
+  --color-accent: var(--color-accent);
+  --color-accent-dark: var(--color-accent-dark);
+  --color-accent-soft: var(--color-accent-soft);
+  --color-dark: var(--color-dark);
+  --color-dark-foreground: var(--color-dark-foreground);
+  --color-danger: var(--color-danger);
+  --color-danger-soft: var(--color-danger-soft);
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-dark-foreground);
+}
