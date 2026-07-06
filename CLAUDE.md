@@ -71,6 +71,18 @@ Compilazione PDF: `@myriaddreamin/typst-ts-node-compiler` (native addon,
 `export const runtime = "nodejs"` nelle route, mai Edge). Verificato con
 build reale + chiamata HTTP end-to-end (vedi cronologia commit).
 
+**Font vendorizzati** in `src/typst/fonts/<family>/` (Inter, Source Serif 4,
+Space Grotesk — tutti OFL, scaricati dal mirror `google/fonts` su
+`raw.githubusercontent.com`) e passati esplicitamente a `NodeCompiler.create`
+via `fontArgs: [{ fontPaths: [...] }]` in `src/lib/typst-compile.ts`. Non
+affidarsi a font di sistema (`set text(font: "...")` senza vendoring): in
+questo sandbox capita che siano installati per caso, ma non è garantito
+sull'ambiente di deploy. Ogni template ha un font "display" diverso
+(minimal→Inter, classic→Source Serif 4, bold→Space Grotesk) per dargli
+un'identità visiva distinta; il corpo/tabella resta sempre in Inter per
+leggibilità. La sezione QR-bill sceglie il proprio font conforme SIX in
+autonomia (`font: "auto"` di payqr-swiss) — non toccarla.
+
 ## Agente AI in chat
 
 `src/lib/chat/` — tool-calling reale (non solo informativo) su Kunden/
