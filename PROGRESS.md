@@ -8,14 +8,18 @@
 ## Stato attuale (2026-07-07)
 
 - **Branch**: `claude/astraswissapp-dashboard-0nus5p`
-- **⚠️ NULLA è ancora committato.** Tutto il lavoro descritto sotto è nel
-  working tree, non in commit. Prima azione della prossima sessione: decidere
-  se/come committare (probabilmente un commit per blocco logico: ristruttura
-  layout dashboard, poi template PDF/avena, poi live preview) — non un unico
-  commit gigante.
+- **Committato e pushato** (commit `b3f91df`, 2026-07-07): tutto il lavoro
+  descritto sotto è su `origin/claude/astraswissapp-dashboard-0nus5p`. La
+  cartella `avena/` resta volutamente non tracciata (solo riferimento
+  locale, esclusa da `tsconfig.json`/`eslint.config.mjs`).
 - `npm install` fatto, `.env.local` presente (serve `ANTHROPIC_API_KEY` per la
   chat AI, altrimenti quella funzione non risponde ma il resto dell'app
   funziona lo stesso).
+- **⚠️ Nota sicurezza**: durante il commit, `.env.example` conteneva per
+  errore una chiave API Anthropic reale (non il placeholder vuoto) — è stata
+  ripristinata a vuoto PRIMA di committare, quindi non è mai entrata nella
+  cronologia git. Controllare sempre `git diff .env.example` prima di
+  committare, per sicurezza.
 
 ## Cosa è stato fatto in questa sessione
 
@@ -116,8 +120,7 @@
 
 ## Prossimo passo
 
-Da decidere insieme domani. Candidati: (a) sistemare il bug del
-PdfDownloadButton stale, (b) committare il lavoro fatto in blocchi logici,
-(c) continuare a raffinare/testare visivamente i 3 template nel browser
-(finora verificato solo via API + confronto testo, mai aperto in un browser
-vero).
+Committato e pushato (vedi sopra). Da decidere insieme domani. Candidati:
+(a) sistemare il bug del PdfDownloadButton stale, (b) continuare a
+raffinare/testare visivamente i 3 template nel browser (finora verificato
+solo via API + confronto testo, mai aperto in un browser vero).
