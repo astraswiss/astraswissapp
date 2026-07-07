@@ -14,7 +14,7 @@ export default function OfferteDetailPage({ params }: { params: Promise<{ id: st
   }
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <h1 className="text-2xl font-semibold tracking-tight text-ink">Offerte {offer.number}</h1>
       <DocumentForm kind="offer" existing={offer} onSaved={() => {}} />
     </div>

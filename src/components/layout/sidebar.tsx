@@ -6,14 +6,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/rechnungen", label: "Rechnungen" },
-  { href: "/offerten", label: "Offerten" },
-  { href: "/kunden", label: "Kunden" },
-  { href: "/einstellungen", label: "Einstellungen" },
+  { href: "/rechnungen", label: "Rechnungen & Offerten", serviceRoots: ["/rechnungen", "/offerten", "/kunden"] },
+  { href: "/einstellungen", label: "Einstellungen", serviceRoots: ["/einstellungen"] },
 ];
 
-function isActive(pathname: string, href: string) {
-  return pathname === href || pathname.startsWith(`${href}/`);
+function isActive(pathname: string, roots: string[]) {
+  return roots.some((root) => pathname === root || pathname.startsWith(`${root}/`));
 }
 
 export function Sidebar() {
@@ -34,7 +32,7 @@ export function Sidebar() {
               href={link.href}
               className={cn(
                 "rounded-lg px-3 py-2 text-sm font-medium tracking-tight transition-colors",
-                isActive(pathname, link.href)
+                isActive(pathname, link.serviceRoots)
                   ? "bg-accent-soft text-accent"
                   : "text-ink-soft hover:bg-paper-raised hover:text-ink",
               )}
@@ -86,7 +84,7 @@ export function Sidebar() {
                 onClick={() => setOpen(false)}
                 className={cn(
                   "rounded-lg px-3 py-2.5 text-base font-medium tracking-tight",
-                  isActive(pathname, link.href) ? "bg-accent-soft text-accent" : "text-ink",
+                  isActive(pathname, link.serviceRoots) ? "bg-accent-soft text-accent" : "text-ink",
                 )}
               >
                 {link.label}

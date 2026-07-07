@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sidebar } from "./sidebar";
 import { hasCompany } from "@/lib/store/company";
-import { ChatWidget } from "@/components/chat/chat-widget";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -28,10 +27,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   if (!ready) return null;
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row">
+    <div className="flex h-screen flex-col overflow-hidden md:flex-row">
       <Sidebar />
-      <main className="flex-1 px-4 py-6 sm:px-6 md:px-8 md:py-8">{children}</main>
-      <ChatWidget />
+      <main className="min-h-0 flex-1 overflow-y-auto px-4 py-6 sm:px-6 md:px-8 md:py-8">{children}</main>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export default function RechnungDetailPage({ params }: { params: Promise<{ id: s
   }
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <h1 className="text-2xl font-semibold tracking-tight text-ink">Rechnung {invoice.number}</h1>
       <DocumentForm kind="invoice" existing={invoice} onSaved={() => {}} />
     </div>

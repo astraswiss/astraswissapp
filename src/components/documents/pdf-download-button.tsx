@@ -31,11 +31,14 @@ export function PdfDownloadButton({
       if (!res.ok) throw new Error("PDF-Erstellung fehlgeschlagen.");
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      const anchor = window.document.createElement("a");
-      anchor.href = url;
-      anchor.download = `${doc.number}.pdf`;
-      anchor.click();
-      URL.revokeObjectURL(url);
+      // Opened in a new tab rather than triggered via a hidden <a download>:
+      // some embedded/webview browsers don't honor the `download` attribute
+      // for blob URLs and instead navigate the *current* tab to the PDF,
+      // which — inside this app's single-page shell — replaced the whole
+      // dashboard (chat dock included) with the PDF viewer. window.open
+      // keeps that fallback contained to a new tab no matter the browser.
+      window.open(url, "_blank", "noopener,noreferrer");
+      setTimeout(() => URL.revokeObjectURL(url), 30_000);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unbekannter Fehler.");
     } finally {
@@ -46,7 +49,7 @@ export function PdfDownloadButton({
   return (
     <div className="flex flex-col gap-1">
       <ButtonEl type="button" variant="secondary" onClick={handleDownload} disabled={loading}>
-        {loading ? "Erstelle PDF…" : "PDF herunterladen"}
+        {loading ? "Erstelle PDF…" : "PDF öffnen"}
       </ButtonEl>
       {error && <p className="text-xs text-danger">{error}</p>}
     </div>

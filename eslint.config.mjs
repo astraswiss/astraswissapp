@@ -14,6 +14,9 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Vendored Typst package sources are not JS/TS.
     "src/typst/**",
+    // Sibling "avena" project kept here for design reference only — has its
+    // own separate config/build, not part of this app.
+    "avena/**",
   ]),
 ]);
 

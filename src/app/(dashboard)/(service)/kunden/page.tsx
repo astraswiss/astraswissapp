@@ -12,7 +12,7 @@ export default function KundenPage() {
   const [creating, setCreating] = useState(false);
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6">
+    <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold tracking-tight text-ink">Kunden</h1>
         {!creating && (
